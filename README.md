@@ -3,6 +3,9 @@ Unpatched code clone detection tool - reimplemented version in Python.
 
 Please refer to our [IEEE S&P research paper](http://ieeexplore.ieee.org/document/6234404) and [USENIX ;login: article](https://www.usenix.org/publications/login/december-2012-volume-37-number-6/redebug-finding-unpatched-code-clones-entire-os) for technical details.
 
+## Dependencies
+- `bitarray`, `python-magic`, and `argparse` modules: `pip install bitarray python-magic argparse`
+- `libmagic` package: `apt-get install libmagic-dev` on Ubuntu/Debian, `brew install libmagic` on OSX
 
 ## Usage
 Please refer to the help message for options:
