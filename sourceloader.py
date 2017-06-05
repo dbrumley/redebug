@@ -38,7 +38,7 @@ class SourceLoader(object):
         self._npatch = patch.length()
 
         if os.path.isfile(source_path):
-            magic_type = common.magic_cookie.file(source_path)
+            magic_type = common.file_type(source_path)
             common.verbose_print('  [-] %s: %s' % (source_path, magic_type))
             if magic_type.startswith('text'):
                 main_type, sub_type = magic_type.split('/')
@@ -48,7 +48,7 @@ class SourceLoader(object):
             for root,dirs,files in os.walk(source_path):
                 for file in files:
                     file_path = os.path.join(root, file)
-                    magic_type = common.magic_cookie.file(file_path)
+                    magic_type = common.file_type(file_path)
                     common.verbose_print('  [-] %s: %s' % (file_path, magic_type))
                     if magic_type.startswith('text'):
                         main_type, sub_type = magic_type.split('/')

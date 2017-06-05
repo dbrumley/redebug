@@ -24,7 +24,7 @@ class PatchLoader(object):
         start_time = time.time()
 
         if os.path.isfile(patch_path):
-            magic_type = common.magic_cookie.file(patch_path)
+            magic_type = common.file_type(patch_path)
             common.verbose_print('  [-] %s: %s' % (patch_path, magic_type))
             if magic_type.startswith('text'):
                 main_type, sub_type = magic_type.split('/')
@@ -33,7 +33,7 @@ class PatchLoader(object):
             for root,dirs,files in os.walk(patch_path):
                 for file in files:
                     file_path = os.path.join(root, file)
-                    magic_type = common.magic_cookie.file(file_path)
+                    magic_type = common.file_type(file_path)
                     common.verbose_print('  [-] %s: %s' % (file_path, magic_type))
                     if magic_type.startswith('text'):
                         main_type, sub_type = magic_type.split('/')

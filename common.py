@@ -50,6 +50,12 @@ ruby_partial_comment_regex = re.compile(r'(?P<comment>=begin.*?$|^.*?=end)|(?P<n
 whitespaces_regex = re.compile(r'[\t\x0b\x0c\r ]+')
 
 
+def file_type(file_path):
+    try:
+        return magic_cookie.from_file(file_path)
+    except AttributeError:
+        return magic_cookie.file(file_path)
+
 def verbose_print(text):
     if verbose_mode:
         print '%s' % text

@@ -62,8 +62,11 @@ if __name__ == '__main__':
     common.verbose_print('[-] source_path  : %s' % source_path)
 
     # initialize a magic cookie pointer
-    common.magic_cookie = magic.open(magic.MAGIC_MIME)
-    common.magic_cookie.load()
+    try:
+        common.magic_cookie = magic.open(magic.MAGIC_MIME)
+        common.magic_cookie.load()
+    except AttributeError:
+        common.magic_cookie = magic.Magic(mime=True, uncompress=True)
     common.verbose_print('[-] initialized magic cookie\n')
 
     # traverse patch files
@@ -87,7 +90,6 @@ if __name__ == '__main__':
         print('[!] no exact match found')
         sys.exit(1)
 
-    common.magic_cookie.close()
     elapsed_time = time.time() - start_time
     print '[+] %d matches given %d patches ... %.1fs' % (exact_nmatch, npatch, elapsed_time)
 
