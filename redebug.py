@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 # redebug.py
 #
@@ -12,30 +11,31 @@ import common
 import patchloader
 import sourceloader
 import reporter
+import debugpy
 
 try:
     import argparse
     import magic
 except ImportError as err:
-    print err
+    print(err)
     sys.exit(-1)
 
 
 def parse_args():
-    '''
+    """
     Parse command line arguments
-    '''
+    """
     parser = argparse.ArgumentParser()
     # optional arguments
-    parser.add_argument('-n', '--ngram',\
-            action='store', dest='ngram_size', type=int, default=4, metavar='NUM',\
-            help='use n-gram of NUM lines (default: %(default)s)')
-    parser.add_argument('-c', '--context',\
-            action='store', dest='context_line', type=int, default=10, metavar='NUM',\
-            help='print NUM lines of context (default: %(default)s)')
-    parser.add_argument('-v', '--verbose',\
-            action='store_true', dest='verbose_mode', default=False,\
-            help='enable verbose mode (default: %(default)s)')
+    parser.add_argument('-n', '--ngram',
+                        action='store', dest='ngram_size', type=int, default=4, metavar='NUM',
+                        help='use n-gram of NUM lines (default: %(default)s)')
+    parser.add_argument('-c', '--context',
+                        action='store', dest='context_line', type=int, default=10, metavar='NUM',
+                        help='print NUM lines of context (default: %(default)s)')
+    parser.add_argument('-v', '--verbose',
+                        action='store_true', dest='verbose_mode', default=False,
+                        help='enable verbose mode (default: %(default)s)')
     # positional arguments
     parser.add_argument('patch_path', action='store', help='path to patch files (in unified diff format)')
     parser.add_argument('source_path', action='store', help='path to source files')
@@ -46,20 +46,22 @@ def parse_args():
         common.context_line = args.context_line
         common.verbose_mode = args.verbose_mode
         return args.patch_path, args.source_path
-    except IOError, msg:
+    except IOError as msg:
         parser.error(str(msg))
 
 
 if __name__ == '__main__':
+    # debugpy.listen(1234)
+    # debugpy.wait_for_client()
 
     # parse arguments
     start_time = time.time()
     patch_path, source_path = parse_args()
-    common.verbose_print('[-] ngram_size   : %d' % common.ngram_size)
-    common.verbose_print('[-] context_line : %d' % common.context_line)
-    common.verbose_print('[-] verbose_mode : %s' % common.verbose_mode)
-    common.verbose_print('[-] patch_path   : %s' % patch_path)
-    common.verbose_print('[-] source_path  : %s' % source_path)
+    common.verbose_print(f'[-] ngram_size   : {common.ngram_size}')
+    common.verbose_print(f'[-] context_line : {common.context_line}')
+    common.verbose_print(f'[-] verbose_mode : {common.verbose_mode}')
+    common.verbose_print(f'[-] patch_path   : {patch_path}')
+    common.verbose_print(f'[-] source_path  : {source_path}')
 
     # initialize a magic cookie pointer
     try:
@@ -91,5 +93,4 @@ if __name__ == '__main__':
         sys.exit(1)
 
     elapsed_time = time.time() - start_time
-    print '[+] %d matches given %d patches ... %.1fs' % (exact_nmatch, npatch, elapsed_time)
-
+    print(f'[+] {exact_nmatch} matches given {npatch} patches ... {elapsed_time:.1f}s')
